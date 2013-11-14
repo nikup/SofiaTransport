@@ -1,0 +1,115 @@
+﻿<Page
+    x:Class="SofiaTransport.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SofiaTransport"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels ="using:SofiaTransport.ViewModels"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="24"/>
+        </Style>
+    </Page.Resources>
+    <Page.DataContext>
+        <viewModels:TypesViewModel />
+    </Page.DataContext>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+        <Grid Background="Crimson">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="140"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="20"></RowDefinition>
+                <RowDefinition Height="80"></RowDefinition>
+                <RowDefinition Height="20"></RowDefinition>
+                <RowDefinition Height="40*"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"></ColumnDefinition>
+                <ColumnDefinition Width="400"></ColumnDefinition>
+                <ColumnDefinition Width="40"></ColumnDefinition>
+                <ColumnDefinition Width="400"></ColumnDefinition>
+                <ColumnDefinition Width="40"></ColumnDefinition>
+                <ColumnDefinition Width="400"></ColumnDefinition>
+                <ColumnDefinition Width="40*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="SofiaTransport" HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource HeaderTextStyle}" Margin="0,0,0,40"></TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Text="Избери спирка" VerticalAlignment="Top" Style="{StaticResource GroupHeaderTextStyle}" Margin="0,-11,0,0"/>
+            <TextBlock Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left" Text="Любими спирки" VerticalAlignment="Top" Style="{StaticResource GroupHeaderTextStyle}" Margin="0,-11,0,0"/>
+            <TextBlock Grid.Row="1" Grid.Column="5" HorizontalAlignment="Left" Text="Последни търсения" VerticalAlignment="Top" Style="{StaticResource GroupHeaderTextStyle}" Margin="0,-11,0,0"/>
+            <ComboBox Grid.Row="2" Grid.Column="1" Name="Types" ItemsSource="{Binding Types}"
+                  DisplayMemberPath="Name"
+                  SelectionChanged="OnTypesComboBoxSelectionChanged"/>
+            <ComboBox Grid.Row="3" Grid.Column="1" Name="BusNumbers"
+                  DisplayMemberPath="Number"
+                   SelectionChanged="OnBusNumbersComboBoxSelectionChanged"/>
+            <ComboBox Grid.Row="4" Grid.Column="1" Name="Direction"
+                  DisplayMemberPath="Name"
+                   SelectionChanged="OnDirectionComboBoxSelectionChanged"/>
+            <ComboBox Grid.Row="5" Grid.Column="1" Name="Stop"
+                  DisplayMemberPath="Name"
+                   SelectionChanged="OnStopComboBoxSelectionChanged"/>
+            <ListBox Name="ResultsListBox" Grid.Row="9" Grid.Column="1">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontSize="19" Text="{Binding Number}" FontWeight="Bold"/>
+                            <TextBlock FontSize="19" Text="&#160;&#160;"/>
+                            <TextBlock FontSize="19" Text="{Binding Time}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBlock Grid.Row="7" Grid.Column="1" x:Name="Posts" FontSize="17" Text="Информация" TextWrapping="Wrap"  ScrollViewer.IsDeferredScrollingEnabled="True"></TextBlock>
+
+            <ListBox Name="FavoritesListBox" Grid.Column="3" Grid.RowSpan="8" Grid.Row="2" SelectionChanged="FavoritesListBoxSelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                            <TextBlock Text="&#160;&#160;"/>
+                            <TextBlock Text="{Binding Direction}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <ListBox Name="LastSearchesListBox" Grid.Column="5" Grid.RowSpan="8" Grid.Row="2" SelectionChanged="LastSearchesListBoxSelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                            <TextBlock Text="&#160;&#160;"/>
+                            <TextBlock Text="{Binding Direction}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </ScrollViewer>
+    <Page.BottomAppBar>
+        <AppBar x:Name="bottomAppBar" Padding="10,0,10,0">
+            <Grid>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <!--<Button Style="{StaticResource MoreAppBarButtonStyle}" Click="MoreInfoButtonClick"/>-->
+                    <Button Style="{StaticResource FavoriteAppBarButtonStyle}" Click="SaveFavouritesButtonClick"/>
+                    <Button Style="{StaticResource RefreshAppBarButtonStyle}" Click="RefreshButtonClick"/>
+
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button Style="{StaticResource DeleteAppBarButtonStyle}" Click="ClearFavouritesButtonClick"/>
+                    <Button Style="{StaticResource DiscardAppBarButtonStyle}" Click="ClearHistoryButtonClick"/>
+                </StackPanel>
+            </Grid>
+        </AppBar>
+    </Page.BottomAppBar>
+</Page>
